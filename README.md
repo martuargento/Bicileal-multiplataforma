@@ -61,7 +61,9 @@ La arquitectura prevista es:
   `backend/.env.example` en el panel del proyecto.
 - **Base de datos:** Supabase PostgreSQL. `backend/prisma/schema.production.prisma`
   define el esquema de producción; configurá `DATABASE_URL` (transaction pooler)
-  y `DIRECT_URL` (session pooler), luego ejecutá `npm run db:push:production`
+  y `DIRECT_URL` (session pooler), luego ejecutá `npm run db:push:production`.
+  En producción, el backend agrega automáticamente `pgbouncer=true` a
+  `DATABASE_URL` para evitar conflictos de prepared statements con Supabase.
   desde `backend`.
 - **Imágenes:** Cloudinary. El backend usa almacenamiento en memoria para subir
   las imágenes a Cloudinary; no depende del disco efímero de Vercel.

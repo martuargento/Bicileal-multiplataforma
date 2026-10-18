@@ -11,13 +11,14 @@ Aplicación nativa de Bicileal desarrollada con React Native y Expo. Conserva lo
 
 ## Configurar la conexión al backend
 
-La app lee la URL desde `EXPO_PUBLIC_API_URL`. Copiá `.env.example` como `.env` en esta carpeta y elegí la URL según dónde se ejecute:
+La app lee la URL base desde `EXPO_PUBLIC_API_URL` y agrega `/api` a las rutas. Copiá `.env.example` como `.env` en esta carpeta y elegí la URL según dónde se ejecute:
 
 | Dispositivo | URL |
 | --- | --- |
 | Emulador Android | `http://10.0.2.2:8000` |
 | Simulador iOS | `http://localhost:8000` |
 | Celular físico | `http://IP_LOCAL_DE_TU_PC:8000` |
+| Producción | `https://bicileal-multiplataforma.vercel.app` |
 
 Para encontrar la IP local en Windows, ejecutá `ipconfig` y usá la dirección IPv4 de tu conexión Wi-Fi, por ejemplo `http://192.168.1.25:8000`. No uses `localhost` desde un celular físico: apuntaría al propio teléfono. Permití Node.js en el firewall de Windows si el teléfono no puede acceder al servidor.
 
@@ -49,6 +50,12 @@ npm run android
 ```
 
 La primera vez que cambies `.env`, reiniciá Expo con `npx expo start --clear`.
+
+Para producción, guardá la URL HTTPS de Vercel en `EXPO_PUBLIC_API_URL` antes
+de compilar la aplicación. La URL se incorpora al bundle, por lo que un APK ya
+instalado no cambia al actualizar GitHub ni al publicar una versión web: hay
+que generar e instalar un APK nuevo. No uses la IP de la PC para una versión
+que deba funcionar sin que la PC esté encendida.
 
 ## Qué probar
 

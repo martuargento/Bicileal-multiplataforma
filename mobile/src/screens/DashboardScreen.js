@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import Encabezado from '../components/Encabezado'
 import { Boton, Campo, Cargando, Mensaje } from '../components/Controles'
@@ -14,6 +14,8 @@ import { colores } from '../theme/colores'
 const formularioVacio = { nombre: '', descripcion: '', precio: '', stock: '' }
 
 export default function DashboardScreen({ navigation }) {
+  const { width } = useWindowDimensions()
+  const vistaTablet = width >= 480
   const { usuario, logout } = useAuth()
   const { productos, cargarProductos: cargarCatalogo, agregarAlCatalogo, quitarDelCatalogo } = useCatalogo()
   const [datosProducto, setDatosProducto] = useState(formularioVacio)
@@ -126,16 +128,18 @@ export default function DashboardScreen({ navigation }) {
           {cargando && productos.length === 0 && <Cargando mensaje="Cargando productos..." />}
           {!!errorCarga && <Mensaje titulo="No se pudo cargar el listado" detalle={errorCarga} tipo="error" />}
           {!cargando && !errorCarga && productos.length === 0 && <Mensaje titulo="No hay productos cargados" detalle="Agregá el primero con el formulario de arriba." />}
-          {productos.map((producto) => (
-            <View key={producto.id} style={estilos.itemProducto}>
-              <TarjetaProducto producto={producto} mostrarAccion={false} />
-              <Text style={estilos.stock}>Stock: {producto.stock}</Text>
-              <View style={estilos.acciones}>
-                <View style={estilos.columna}><Boton titulo="Editar" variante="secundario" onPress={() => navigation.navigate('EditarProducto', { id: producto.id })} /></View>
-                <View style={estilos.columna}><Boton titulo="Eliminar" variante="peligro" onPress={() => confirmarEliminar(producto)} /></View>
+          <View style={vistaTablet ? estilos.listaProductosTablet : estilos.listaProductos}>
+            {productos.map((producto) => (
+              <View key={producto.id} style={[estilos.itemProducto, vistaTablet && estilos.itemProductoTablet]}>
+                <TarjetaProducto producto={producto} mostrarAccion={false} vistaTablet={vistaTablet} />
+                <Text style={estilos.stock}>Stock: {producto.stock}</Text>
+                <View style={estilos.acciones}>
+                  <View style={estilos.columna}><Boton titulo="Editar" variante="secundario" onPress={() => navigation.navigate('EditarProducto', { id: producto.id })} /></View>
+                  <View style={estilos.columna}><Boton titulo="Eliminar" variante="peligro" onPress={() => confirmarEliminar(producto)} /></View>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
           <Boton titulo="Cerrar sesión" variante="secundario" onPress={async () => { await logout(); navigation.goBack() }} />
         </View>
       </ScrollView>
@@ -157,7 +161,10 @@ const estilos = StyleSheet.create({
   tituloImagen: { color: colores.tinta, fontSize: 13, fontWeight: '700' },
   nombreImagen: { color: colores.secundaria, fontSize: 12, lineHeight: 17 },
   seccion: { gap: 14 },
+  listaProductos: { gap: 14 },
+  listaProductosTablet: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
   itemProducto: { gap: 7 },
+  itemProductoTablet: { width: '48%' },
   stock: { color: colores.secundaria, fontSize: 12, textAlign: 'right' },
   acciones: { flexDirection: 'row', gap: 10, marginBottom: 8 },
 })

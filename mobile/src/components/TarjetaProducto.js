@@ -6,11 +6,11 @@ import { colores } from '../theme/colores'
 
 const IMAGEN_FALLBACK = 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=900&q=80'
 
-export default function TarjetaProducto({ producto, cotizacion, agregarAlCarrito, mostrarAccion = true }) {
+export default function TarjetaProducto({ producto, cotizacion, agregarAlCarrito, mostrarAccion = true, vistaTablet = false }) {
   const imagen = producto.imagen ? resolverUrlMultimedia(producto.imagen) : IMAGEN_FALLBACK
   return (
     <View style={estilos.tarjeta}>
-      <Image source={{ uri: imagen }} style={estilos.imagen} resizeMode="cover" />
+      <Image source={{ uri: imagen }} style={estilos.imagen} resizeMode={vistaTablet ? 'contain' : 'cover'} />
       <View style={estilos.contenido}>
         <View style={estilos.detalles}>
           <Text style={estilos.nombre} numberOfLines={2}>{producto.nombre}</Text>
@@ -35,7 +35,7 @@ const estilos = StyleSheet.create({
     shadowRadius: 14,
     elevation: 2,
   },
-  imagen: { width: '100%', height: 190, backgroundColor: colores.primarioClaro },
+  imagen: { width: '100%', height: 190, backgroundColor: '#FFFFFF' },
   contenido: { padding: 16, gap: 14 },
   detalles: { gap: 5 },
   nombre: { color: colores.tinta, fontSize: 18, fontWeight: '800' },

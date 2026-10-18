@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { FlatList, ImageBackground, RefreshControl, StyleSheet, Text, TextInput, View } from 'react-native'
+import { FlatList, ImageBackground, RefreshControl, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useFocusEffect } from '@react-navigation/native'
 import Encabezado from '../components/Encabezado'
@@ -14,6 +14,8 @@ import { colores } from '../theme/colores'
 const imagenHero = require('../../assets/nuestrahistoria.jpg')
 
 export default function TiendaScreen({ navigation }) {
+  const { width } = useWindowDimensions()
+  const cantidadColumnas = width >= 1100 ? 3 : width >= 480 ? 2 : 1
   const [cotizacion, setCotizacion] = useState(null)
   const [busqueda, setBusqueda] = useState('')
   const [cargando, setCargando] = useState(true)
@@ -55,10 +57,20 @@ export default function TiendaScreen({ navigation }) {
   return (
     <View style={estilos.pantalla}>
       <FlatList
+        key={cantidadColumnas}
         data={productosFiltrados}
+        numColumns={cantidadColumnas}
+        columnWrapperStyle={cantidadColumnas > 1 ? estilos.filaProductos : undefined}
         keyExtractor={(producto) => String(producto.id)}
         renderItem={({ item }) => (
-          <TarjetaProducto producto={item} cotizacion={cotizacion} agregarAlCarrito={agregarAlCarrito} />
+          <View style={cantidadColumnas > 1 ? estilos.itemTablet : undefined}>
+            <TarjetaProducto
+              producto={item}
+              cotizacion={cotizacion}
+              agregarAlCarrito={agregarAlCarrito}
+              vistaTablet={cantidadColumnas > 1}
+            />
+          </View>
         )}
         contentContainerStyle={estilos.lista}
         ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
@@ -118,6 +130,8 @@ export default function TiendaScreen({ navigation }) {
 const estilos = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: colores.fondo },
   lista: { paddingBottom: 22 },
+  filaProductos: { paddingHorizontal: 20, gap: 15 },
+  itemTablet: { flex: 1 },
   hero: { minHeight: 206, marginHorizontal: 20, marginBottom: 23, overflow: 'hidden', borderRadius: 24, justifyContent: 'flex-end' },
   imagenHero: { borderRadius: 24 },
   capaHero: { minHeight: 206, padding: 20, justifyContent: 'flex-end', gap: 8, backgroundColor: 'rgba(13, 29, 15, 0.60)' },

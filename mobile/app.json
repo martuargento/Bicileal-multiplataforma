@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Bicileal",
+    "slug": "bicileal-mobile",
+    "version": "1.0.0",
+    "scheme": "bicileal",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bicileal.mobile"
+    },
+    "android": {
+      "package": "com.bicileal.mobile",
+      "versionCode": 4,
+      "adaptiveIcon": {
+        "backgroundColor": "#F5F7F3",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Bicileal necesita acceso a tus fotos para cargar imágenes de productos.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}

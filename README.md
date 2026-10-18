@@ -53,14 +53,15 @@ La arquitectura prevista es:
 
 - **Web:** Netlify. Enlazá este repositorio y establecé `frontend` como
   directorio base, `npm run build` como comando y `dist` como directorio de
-  publicación. Configurá `VITE_API_URL` con la URL HTTPS pública de la API.
+  publicación. Configurá `VITE_API_URL` con el origen HTTPS público de la API,
+  sin `/api`; el cliente web agrega ese prefijo automáticamente.
 - **API:** Vercel. Creá un proyecto desde el mismo repositorio y establecé
   `backend` como directorio raíz. El backend exporta la app de Express para que
   Vercel la ejecute como función. Configurá las variables de
   `backend/.env.example` en el panel del proyecto.
 - **Base de datos:** Supabase PostgreSQL. `backend/prisma/schema.production.prisma`
-  define el esquema de producción; configurá `DATABASE_URL` (pooler) y
-  `DIRECT_URL` (conexión directa), luego ejecutá `npm run db:push:production`
+  define el esquema de producción; configurá `DATABASE_URL` (transaction pooler)
+  y `DIRECT_URL` (session pooler), luego ejecutá `npm run db:push:production`
   desde `backend`.
 - **Imágenes:** Cloudinary. El backend usa almacenamiento en memoria para subir
   las imágenes a Cloudinary; no depende del disco efímero de Vercel.
@@ -73,5 +74,5 @@ Generá `JWT_SECRET_KEY` con un valor largo, único y aleatorio. No uses la clav
 de ejemplo, no publiques credenciales ni cargues secretos con el prefijo
 `VITE_` o `EXPO_PUBLIC_`. `CORS_ORIGINS` debe contener el dominio exacto de
 Netlify, sin barra final; los clientes móviles no envían un origen de navegador.
-Tras desplegar, configurá la URL HTTPS de Vercel en `VITE_API_URL` en Netlify y
+Tras desplegar, configurá el origen HTTPS de Vercel en `VITE_API_URL` en Netlify y
 `EXPO_PUBLIC_API_URL` al compilar la app móvil.

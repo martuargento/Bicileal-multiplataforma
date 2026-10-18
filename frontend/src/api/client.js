@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-export const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')
+const API_ROOT_URL = (import.meta.env.VITE_API_URL || '')
+  .replace(/\/+$/, '')
+  .replace(/\/api$/i, '')
+export const API_BASE_URL = `${API_ROOT_URL}/api`
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -11,7 +14,7 @@ export function resolverUrlMultimedia(ruta) {
   if (!ruta) return ''
 
   try {
-    return new URL(ruta, `${API_BASE_URL || window.location.origin}/`).href
+    return new URL(ruta, `${API_ROOT_URL || window.location.origin}/`).href
   } catch {
     return ruta
   }

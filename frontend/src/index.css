@@ -437,6 +437,92 @@ a {
   color: #2a2a2a;
 }
 
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 36px 20px 64px;
+}
+
+.auth-card {
+  width: min(100%, 480px);
+  padding: 32px;
+  border: 1px solid #e5e7e0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.07);
+}
+
+.auth-card h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 5vw, 2.3rem);
+  line-height: 1.15;
+}
+
+.auth-card .muted {
+  margin: 0 0 24px;
+  color: #5f655d;
+}
+
+.form-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.form-grid label {
+  margin-top: 4px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.form-grid input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #d6d9d2;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.form-grid input:focus {
+  border-color: rgb(123, 187, 47);
+  outline: 3px solid rgba(123, 187, 47, 0.18);
+}
+
+.form-grid small[role="alert"] {
+  color: #b42318;
+}
+
+.form-grid button {
+  min-height: 46px;
+  margin-top: 8px;
+  padding: 10px 16px;
+  border: 1px solid rgb(123, 187, 47);
+  border-radius: 10px;
+  background: rgb(123, 187, 47);
+  color: #fff;
+  font-weight: 700;
+}
+
+.form-grid button:hover:not(:disabled) {
+  background: #659d25;
+}
+
+.form-grid button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form-grid button.secondary {
+  margin-top: 0;
+  border-color: #d6d9d2;
+  background: #fff;
+  color: #333;
+}
+
+.form-grid button.secondary:hover {
+  background: #f4f6f1;
+}
+
 .contact-form {
   display: grid;
   gap: 14px;
@@ -832,6 +918,14 @@ footer hr {
 @media (max-width: 560px) {
   .container-main {
     grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 24px 14px 48px;
+  }
+
+  .auth-card {
+    padding: 24px 20px;
   }
 
   .contact-form {
